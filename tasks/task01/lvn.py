@@ -14,17 +14,16 @@ def should_keep(blocks):
     new_blocks = []
     for block in blocks:
         while True:
-            last_used = {}
+            val2num = {}
+            num2val = {}
+            var2num = {}
+            num2var = {}
             step = block.copy()
             for instr in block:
+                args = []
                 if "args" in instr:
-                    for arg in instr["args"]:
-                        if arg in last_used:
-                            del last_used[arg]
-                if "dest" in instr:
-                    if instr["dest"] in last_used:
-                        block.remove(last_used[instr["dest"]])
-                    last_used[instr["dest"]] = instr    
+                    args = [var2num[arg] for arg in instr["args"]]
+                
             if step == block:
                 new_blocks += block
                 break
